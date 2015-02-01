@@ -3,6 +3,8 @@ __author__ = 'tux'
 Program Name: ELE 370 Vector Conversion Program
 Program Start Date: 27Jan2015
 Purpose of Program: This program will prompt and convert various coordinate systems for homework.
+
+Currently in the process of cleaning up the code and learning how to use git.
 """
 import math
 
