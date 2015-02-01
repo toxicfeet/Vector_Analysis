@@ -92,9 +92,9 @@ while True:
     print('Given the coordinates provided, here are the %s, %s, and %s coordinates:' % ('Cartesian', 'Cylindrical',
                                                                                         'Spherical'))
     print()
-    print('Cartesian:   (' + "%.3f" % cart[0] + ', ' + "%.3f" % cart[1] + ', ' + "%.3f" % cart[2] + ').')
-    print('Cylindrical: (' + "%.3f" % cyl[0] + ', ' + "%.3f" % cyl[1] + ', ' + "%.3f" % cyl[2] + ').')
-    print('Spherical:   (' + "%.3f" % sph[0] + ', ' + "%.3f" % sph[1] + ', ' + "%.3f" % sph[2] + ').')
+    print('Cartesian:   (' + "%.4f" % cart[0] + ', ' + "%.4f" % cart[1] + ', ' + "%.4f" % cart[2] + ').')
+    print('Cylindrical: (' + "%.4f" % cyl[0] + ', ' + "%.4f" % cyl[1] + ', ' + "%.4f" % cyl[2] + ').')
+    print('Spherical:   (' + "%.4f" % sph[0] + ', ' + "%.4f" % sph[1] + ', ' + "%.4f" % sph[2] + ').')
     print()
     cart = [0, 0, 0]
     cyl = [0, 0, 0]
