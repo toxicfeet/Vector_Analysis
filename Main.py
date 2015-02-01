@@ -8,43 +8,43 @@ Currently in the process of cleaning up the code and learning how to use git.
 """
 import math
 
-class convert():
+class Convert(object):
 
     def cart_to_cyl(x, y, z):
-        r = abs(math.sqrt(x**2+y**2))
-        phi = math.atan(y/x)
+        r = abs(math.sqrt(x ** 2 + y ** 2))
+        phi = math.atan(y / x)
         z = z
-        return r, phi, z
+        return [r, phi, z]
 
-    def cart_to_sph():
-        global sph_theta, sph_r, sph_phi
-        sph_r = abs(math.sqrt(cart_x**2 + cart_y**2 + cart_z**2))
-        sph_theta = math.atan(abs(math.sqrt(cart_x**2 + cart_y**2))/cart_z)
-        sph_phi = math.atan(cart_y/cart_x)
+    def cart_to_sph( x, y, z):
+        r = abs(math.sqrt(x**2 + y**2 + z**2))
+        theta = math.atan(abs(math.sqrt(x**2 + y**2))/z)
+        phi = math.atan(y/x)
+        return [r, theta, phi]
 
-    def cyl_to_cart(r, phi, z):
+    def cyl_to_cart( r, phi, z):
         x = r*math.cos(phi)
         y = r*math.sin(phi)
         z = z
-        return {x, y, z}
+        return [x, y, z]
 
-    def cyl_to_sph():
-        global sph_theta, sph_r, sph_phi
-        sph_r = abs(math.sqrt(cyl_r**2+cyl_z**2))
-        sph_theta = math.atan(cyl_r/cyl_z)
-        sph_phi = cyl_phi
+    def cyl_to_sph( r, phi, z):
+        x = abs(math.sqrt(r**2+z**2))
+        y = math.atan(r / z)
+        z = phi
+        return [x, y, z]
 
-    def sph_to_cart():
-        global cart_x, cart_y, cart_z
-        cart_x = sph_r*math.sin(sph_theta)*math.cos(sph_phi)  # r*cos(theta)sin(phi)
-        cart_y = sph_r*math.sin(sph_theta)*math.sin(sph_phi)  # r*sin(theta)sin(phi)
-        cart_z = sph_r*math.cos(sph_theta)  # r*cos(theta)
+    def sph_to_cart( r, theta, phi):
+        x = r*math.sin(theta)*math.cos(phi)  # r*cos(theta)sin(phi)
+        y = r*math.sin(theta)*math.sin(phi)  # r*sin(theta)sin(phi)
+        z = r*math.cos(theta)  # r*cos(theta)
+        return [x, y, z]
 
-    def sph_to_cyl():
-        global cyl_phi, cyl_r, cyl_z
-        cyl_phi = sph_r*math.sin(sph_theta)  # R*sin(theta)
-        cyl_r = sph_phi  # phi
-        cyl_z = sph_r*math.cos(sph_theta)  # R*cos(theta)
+    def sph_to_cyl( r, theta, phi):
+        x = r*math.sin(theta)  # R*sin(theta)
+        y = phi  # phi
+        z = r*math.cos(theta)  # R*cos(theta)
+        return [x, y, z]
 
 print()
 print('Welcome to ELE 370 Vector Simplification Program.')
@@ -64,28 +64,28 @@ while True:
     while True:
         main_menu_selection = input("Please enter a selection (press 'q' to quit):")
         if main_menu_selection == '1':
-            cart_x = float(input('What is the value of x: '))
-            cart_y = float(input('What is the value of y: '))
-            cart_z = float(input('What is the value of z: '))
-            print('Then entered values for (x, y, z) are (%s, %s, %s).' % (cart_x, cart_y, cart_z))
-            convert.cart_to_cyl()
-            convert.cart_to_sph()
+            cart_input = input("Enter the three Cartesian coordinates separated by commas: ")
+            cart_list = cart_input.split(',')
+            cart = [float(x.strip()) for x in cart_list]
+            print('Then entered values for (x, y, z) are (%s, %s, %s).' % (cart[0], cart[1], cart[2]))
+            cyl = Convert.cart_to_cyl(cart[0], cart[1], cart[2])
+            sph = Convert.cart_to_sph(cart[0], cart[1], cart[2])
             break
         elif main_menu_selection == '2':
-            cyl_r = float(input('What is the value of r: '))
-            cyl_phi = float(input('What is the value of phi: '))
-            cyl_z = float(input('What is the value of z: '))
-            print('Then entered values for (r, phi, z) are (%s, %s, %s).' % (cyl_r, cyl_phi, cyl_z))
-            cart_x, cart_y, cart_z = convert.cyl_to_cart(cyl_r, cyl_phi, cyl_z)
-            convert.cyl_to_sph()
+            cyl_input = input('Enter the three Cylindrical coordinates separated by commas: ')
+            cyl_list = cyl_input.split(',')
+            cyl = [float(x.strip()) for x in cyl_list]
+            print('Then entered values for (r, phi, z) are (%s, %s, %s).' % (cyl[0], cyl[1], cyl[2]))
+            cart = Convert.cyl_to_cart(cyl[0], cyl[1], cyl[2])
+            sph = Convert.cyl_to_sph(cyl[0], cyl[1], cyl[2])
             break
         elif main_menu_selection == '3':
-            sph_r = float(input('What is the value of r: '))
-            sph_theta = float(input('What is the value of theta: '))
-            sph_phi = float(input('What is the value of phi: '))
-            print('Then entered values for (r, phi, z) are (%s, %s, %s).' % (sph_r, sph_theta, sph_phi))
-            convert.sph_to_cart()
-            convert.sph_to_cyl()
+            sph_input = input('Enter the three Spherical coordinates separated by commas: ')
+            sph_list = sph_input.split(',')
+            sph = [float(x.strip()) for x in sph_list]
+            print('Then entered values for (r, theta, phi) are (%s, %s, %s).' % (sph[0], sph[1], sph[2]))
+            cart = Convert.sph_to_cart(sph[0], sph[1], sph[2])
+            cyl = Convert.sph_to_cyl(sph[0], sph[1], sph[2])
             break
         elif main_menu_selection == 'q' or 'Q' or 'quit' or 'QUIT':
             print('Thank you for using the Vector Simplification Program.')
@@ -96,10 +96,10 @@ while True:
 
     print('Given the coordinates provided, here are the %s, %s, and %s coordinates:' % ('Cartesian', 'Cylindrical', 'Spherical'))
     print()
-    print('Cartesian:   (' + "%.3f" % cart_x + ', ' + "%.3f" % cart_y + ', ' + "%.3f" % cart_z + ').')
-    print('Cylindrical: (' + "%.3f" % cyl_r + ', ' + "%.3f" % cyl_phi + ', ' + "%.3f" % cyl_z + ').')
-    print('Spherical:   (' + "%.3f" % sph_r + ', ' + "%.3f" % sph_theta + ', ' + "%.3f" % sph_phi + ').')
+    print('Cartesian:   (' + "%.3f" % cart[0] + ', ' + "%.3f" % cart[1] + ', ' + "%.3f" % cart[2] + ').')
+    print('Cylindrical: (' + "%.3f" % cyl[0] + ', ' + "%.3f" % cyl[1] + ', ' + "%.3f" % cyl[2] + ').')
+    print('Spherical:   (' + "%.3f" % sph[0] + ', ' + "%.3f" % sph[1] + ', ' + "%.3f" % sph[2] + ').')
     print()
-    cart_x, cart_y, cart_z = 0, 0, 0
-    sph_phi, sph_theta, sph_r = 0, 0, 0
-    cyl_phi, cyl_z, cyl_r = 0, 0, 0
+    cart = [0, 0, 0]
+    cyl = [0, 0, 0]
+    sph = [0, 0, 0]
