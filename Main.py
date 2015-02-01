@@ -10,11 +10,11 @@ import math
 
 class convert():
 
-    def cart_to_cyl():
-        global cyl_phi, cyl_r, cyl_z
-        cyl_r = abs(math.sqrt(cart_x**2+cart_y**2))
-        cyl_phi = math.atan(cart_y/cart_x)
-        cyl_z = cart_z
+    def cart_to_cyl(x, y, z):
+        r = abs(math.sqrt(x**2+y**2))
+        phi = math.atan(y/x)
+        z = z
+        return r, phi, z
 
     def cart_to_sph():
         global sph_theta, sph_r, sph_phi
@@ -87,7 +87,7 @@ while True:
             convert.sph_to_cart()
             convert.sph_to_cyl()
             break
-        elif main_menu_selection == 'q':
+        elif main_menu_selection == 'q' or 'Q' or 'quit' or 'QUIT':
             print('Thank you for using the Vector Simplification Program.')
             quit()
         else:
