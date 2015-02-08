@@ -1,43 +1,47 @@
 __author__ = 'tux'
 
 from tkinter import *
-import math
+import sympy
+
+cos, sin, tan = sympy.cos, sympy.sin, sympy.tan
+acos, asin, atan = sympy.acos, sympy.asin, sympy.atan
+sqrt = sympy.sqrt
 
 class Convert(object):
     def cart_to_cyl(x, y, z):
-        r = abs(math.sqrt(x ** 2 + y ** 2))
-        phi = math.atan(y / x)
+        r = abs(sqrt(x ** 2 + y ** 2))
+        phi = atan(y / x)
         z = z
         return [r, phi, z]
 
     def cart_to_sph(x, y, z):
-        r = abs(math.sqrt(x ** 2 + y ** 2 + z ** 2))
-        theta = math.atan(abs(math.sqrt(x ** 2 + y ** 2)) / z)
-        phi = math.atan(y / x)
+        r = abs(sqrt(x ** 2 + y ** 2 + z ** 2))
+        theta = atan(abs(sqrt(x ** 2 + y ** 2)) / z)
+        phi = atan(y / x)
         return [r, theta, phi]
 
     def cyl_to_cart(r, phi, z):
-        x = r * math.cos(phi)
-        y = r * math.sin(phi)
+        x = r * cos(phi)
+        y = r * sin(phi)
         z = z
         return [x, y, z]
 
     def cyl_to_sph(r, phi, z):
-        x = abs(math.sqrt(r ** 2 + z ** 2))
-        y = math.atan(r / z)
+        x = abs(sqrt(r ** 2 + z ** 2))
+        y = atan(r / z)
         z = phi
         return [x, y, z]
 
     def sph_to_cart(r, theta, phi):
-        x = r * math.sin(theta) * math.cos(phi)  # r*cos(theta)sin(phi)
-        y = r * math.sin(theta) * math.sin(phi)  # r*sin(theta)sin(phi)
-        z = r * math.cos(theta)  # r*cos(theta)
+        x = r * sin(theta) * cos(phi)  # r*cos(theta)sin(phi)
+        y = r * sin(theta) * sin(phi)  # r*sin(theta)sin(phi)
+        z = r * cos(theta)  # r*cos(theta)
         return [x, y, z]
 
     def sph_to_cyl(r, theta, phi):
-        x = r * math.sin(theta)  # R*sin(theta)
+        x = r * sin(theta)  # R*sin(theta)
         y = phi  # phi
-        z = r * math.cos(theta)  # R*cos(theta)
+        z = r * cos(theta)  # R*cos(theta)
         return [x, y, z]
 
 def GetRectCoordinates():
