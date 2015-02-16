@@ -47,14 +47,44 @@ class Convert():
         return [x, y, z]
 
 
-class CoordConvertWindow(tk.Tk):
+class MainWindow(tk.Tk):
     def __init__(self, parent):
         tk.Tk.__init__(self, parent)
         self.parent = parent
         self.window()
 
-    def window(self):
 
+    def window(self):
+        windowvector1 = tk.Button(self, text="Input Vector 1", command=vector_1_window)
+        windowvector1.grid(row=1)
+        windowvector2 = tk.Button(self, text="Input Vector 2", command=vector_2_window)
+        windowvector2.grid(row=2)
+
+
+def vector_1_window():
+    vector1.mainloop()
+
+
+def vector_2_window():
+    vector1.mainloop()
+
+
+class CoordConvert(tk.Tk):
+    def __init__(self, parent):
+        tk.Tk.__init__(self, parent)
+        self.parent = parent
+        self.window()
+        self.x = 0
+        self.y = 0
+        self.z = 0
+        self.a = 0
+        self.b = 0
+        self.c = 0
+        self.i = 0
+        self.j = 0
+        self.k = 0
+
+    def window(self):
         self.label_1 = tk.Label(self, text="Rectangular:")
         self.label_2 = tk.Label(self, text="Cylindrical:")
         self.label_3 = tk.Label(self, text="Spherical:")
@@ -123,6 +153,11 @@ class CoordConvertWindow(tk.Tk):
         self.entry_9.delete(0, tk.END)
         self.entry_9.insert(0, sphe[2])
 
+        self.x, self.y, self.z = rect[0], rect[1], rect[2]
+        self.a, self.b, self.c = cyli[0], cyli[1], cyli[2]
+        self.i, self.j, self.k = sphe[0], sphe[1], sphe[2]
+
+
     def GetCyliCoordinates(self):
         cylindrical_list = self.entry_2.get() + "," + self.entry_5.get() + "," + self.entry_8.get()
 
@@ -151,6 +186,10 @@ class CoordConvertWindow(tk.Tk):
         self.entry_6.insert(0, sphe[1])
         self.entry_9.delete(0, tk.END)
         self.entry_9.insert(0, sphe[2])
+
+        self.x, self.y, self.z = rect[0], rect[1], rect[2]
+        self.a, self.b, self.c = cyli[0], cyli[1], cyli[2]
+        self.i, self.j, self.k = sphe[0], sphe[1], sphe[2]
 
     def GetSpheCoordinates(self):
 
@@ -182,7 +221,19 @@ class CoordConvertWindow(tk.Tk):
         self.entry_8.delete(0, tk.END)
         self.entry_8.insert(0, cyli[2])
 
+        self.x, self.y, self.z = rect[0], rect[1], rect[2]
+        self.a, self.b, self.c = cyli[0], cyli[1], cyli[2]
+        self.i, self.j, self.k = sphe[0], sphe[1], sphe[2]
 
-root = CoordConvertWindow(None)
+    def Vector1():
 
+        vector1.children()
+
+    def Vector2():
+        vector2.children()
+
+
+vector1 = CoordConvert(None)
+vector2 = CoordConvert(None)
+root = MainWindow(None)
 root.mainloop()
