@@ -55,25 +55,15 @@ class MainWindow(tk.Tk):
 
 
     def window(self):
-        windowvector1 = tk.Button(self, text="Input Vector 1", command=vector_1_window)
+        windowvector1 = tk.Button(self, text="Input Vector A", command=vector1.windowrun)
         windowvector1.grid(row=1)
-        windowvector2 = tk.Button(self, text="Input Vector 2", command=vector_2_window)
+        windowvector2 = tk.Button(self, text="Input Vector B", command=vector2.windowrun)
         windowvector2.grid(row=2)
-
-
-def vector_1_window():
-    vector1.mainloop()
-
-
-def vector_2_window():
-    vector1.mainloop()
 
 
 class CoordConvert(tk.Tk):
     def __init__(self, parent):
-        tk.Tk.__init__(self, parent)
         self.parent = parent
-        self.window()
         self.x = 0
         self.y = 0
         self.z = 0
@@ -97,11 +87,32 @@ class CoordConvert(tk.Tk):
         self.entry_7 = tk.Entry(self)
         self.entry_8 = tk.Entry(self)
         self.entry_9 = tk.Entry(self)
-        self.entry_main = tk.Entry(self)
-
+        self.entry_main = tk.Label(self, text=self)
+        self.endwindow = tk.Button(self, text="Save Vector", command=self.destroy).grid(row=0, column=4)
         self.calculate_rect = tk.Button(self, text="Calculate", command=self.GetRectCoordinates).grid(row=1, column=4)
         self.calculate_cyli = tk.Button(self, text="Calculate", command=self.GetCyliCoordinates).grid(row=2, column=4)
         self.calculate_sphe = tk.Button(self, text="Calculate", command=self.GetSpheCoordinates).grid(row=3, column=4)
+
+        self.entry_1.delete(0, tk.END)
+        self.entry_1.insert(0, self.x)
+        self.entry_4.delete(0, tk.END)
+        self.entry_4.insert(0, self.y)
+        self.entry_7.delete(0, tk.END)
+        self.entry_7.insert(0, self.z)
+
+        self.entry_2.delete(0, tk.END)
+        self.entry_2.insert(0, self.a)
+        self.entry_5.delete(0, tk.END)
+        self.entry_5.insert(0, self.b)
+        self.entry_8.delete(0, tk.END)
+        self.entry_8.insert(0, self.c)
+
+        self.entry_3.delete(0, tk.END)
+        self.entry_3.insert(0, self.i)
+        self.entry_6.delete(0, tk.END)
+        self.entry_6.insert(0, self.j)
+        self.entry_9.delete(0, tk.END)
+        self.entry_9.insert(0, self.k)
 
         new_order = (self.entry_1, self.entry_4, self.entry_7,
                      self.entry_2, self.entry_5, self.entry_8,
@@ -225,12 +236,10 @@ class CoordConvert(tk.Tk):
         self.a, self.b, self.c = cyli[0], cyli[1], cyli[2]
         self.i, self.j, self.k = sphe[0], sphe[1], sphe[2]
 
-    def Vector1():
-
-        vector1.children()
-
-    def Vector2():
-        vector2.children()
+    def windowrun(self):
+        tk.Tk.__init__(self)
+        self.window()
+        self.window()
 
 
 vector1 = CoordConvert(None)
