@@ -1,13 +1,15 @@
 __author__ = 'tux'
 
-from tkinter import *
+import tkinter as tk
+import Convert
 import sympy
 
 cos, sin, tan = sympy.cos, sympy.sin, sympy.tan
 acos, asin, atan = sympy.acos, sympy.asin, sympy.atan
 sqrt = sympy.sqrt
 
-class Convert(object):
+
+class Convert():
     def cart_to_cyl(x, y, z):
         r = abs(sqrt(x ** 2 + y ** 2))
         phi = atan(y / x)
@@ -44,130 +46,143 @@ class Convert(object):
         z = r * cos(theta)  # R*cos(theta)
         return [x, y, z]
 
-def GetRectCoordinates():
-    rectangular_list = entry_1.get() + "," + entry_4.get() + "," + entry_7.get()
 
-    print(rectangular_list)
+class CoordConvertWindow(tk.Tk):
+    def __init__(self, parent):
+        tk.Tk.__init__(self, parent)
+        self.parent = parent
+        self.window()
 
-    if entry_1.get() != '':
-        rect_list = rectangular_list.split(',')
-        rect = [float(x.strip()) for x in rect_list]
-        cyli = Convert.cart_to_cyl(rect[0], rect[1], rect[2])
-        sphe = Convert.cart_to_sph(rect[0], rect[1], rect[2])
+    def window(self):
 
-    print('Cartesian:   (' + "%.4f" % rect[0] + ', ' + "%.4f" % rect[1] + ', ' + "%.4f" % rect[2] + ').')
-    print('Cylindrical: (' + "%.4f" % cyli[0] + ', ' + "%.4f" % cyli[1] + ', ' + "%.4f" % cyli[2] + ').')
-    print('Spherical:   (' + "%.4f" % sphe[0] + ', ' + "%.4f" % sphe[1] + ', ' + "%.4f" % sphe[2] + ').')
+        self.label_1 = tk.Label(self, text="Rectangular:")
+        self.label_2 = tk.Label(self, text="Cylindrical:")
+        self.label_3 = tk.Label(self, text="Spherical:")
+        self.entry_1 = tk.Entry(self)
+        self.entry_2 = tk.Entry(self)
+        self.entry_3 = tk.Entry(self)
+        self.entry_4 = tk.Entry(self)
+        self.entry_5 = tk.Entry(self)
+        self.entry_6 = tk.Entry(self)
+        self.entry_7 = tk.Entry(self)
+        self.entry_8 = tk.Entry(self)
+        self.entry_9 = tk.Entry(self)
+        self.entry_main = tk.Entry(self)
 
-    entry_2.delete(0, END)
-    entry_2.insert(0, cyli[0])
-    entry_5.delete(0, END)
-    entry_5.insert(0, cyli[1])
-    entry_8.delete(0, END)
-    entry_8.insert(0, cyli[2])
+        self.calculate_rect = tk.Button(self, text="Calculate", command=self.GetRectCoordinates).grid(row=1, column=4)
+        self.calculate_cyli = tk.Button(self, text="Calculate", command=self.GetCyliCoordinates).grid(row=2, column=4)
+        self.calculate_sphe = tk.Button(self, text="Calculate", command=self.GetSpheCoordinates).grid(row=3, column=4)
 
-    entry_3.delete(0, END)
-    entry_3.insert(0, sphe[0])
-    entry_6.delete(0, END)
-    entry_6.insert(0, sphe[1])
-    entry_9.delete(0, END)
-    entry_9.insert(0, sphe[2])
+        new_order = (self.entry_1, self.entry_4, self.entry_7,
+                     self.entry_2, self.entry_5, self.entry_8,
+                     self.entry_3, self.entry_6, self.entry_9)
 
-def GetCyliCoordinates():
-    cylindrical_list = entry_2.get() + "," + entry_5.get() + "," + entry_8.get()
+        for widget in new_order:
+            widget.lift()
 
-    print(cylindrical_list)
+        self.label_1.grid(row=1)
+        self.label_2.grid(row=2)
+        self.label_3.grid(row=3)
+        self.entry_main.grid(row=0, column=1)
+        self.entry_1.grid(row=1, column=1)
+        self.entry_4.grid(row=1, column=2)
+        self.entry_7.grid(row=1, column=3)
+        self.entry_2.grid(row=2, column=1)
+        self.entry_5.grid(row=2, column=2)
+        self.entry_8.grid(row=2, column=3)
+        self.entry_3.grid(row=3, column=1)
+        self.entry_6.grid(row=3, column=2)
+        self.entry_9.grid(row=3, column=3)
 
-    if entry_1.get() != '':
-        cyli_list = cylindrical_list.split(',')
-        cyli = [float(x.strip()) for x in cyli_list]
-        rect = Convert.cyl_to_cart(cyli[0], cyli[1], cyli[2])
-        sphe = Convert.cyl_to_sph(cyli[0], cyli[1], cyli[2])
+    def GetRectCoordinates(self):
+        rectangular_list = self.entry_1.get() + "," + self.entry_4.get() + "," + self.entry_7.get()
 
-    print('Cartesian:   (' + "%.4f" % rect[0] + ', ' + "%.4f" % rect[1] + ', ' + "%.4f" % rect[2] + ').')
-    print('Cylindrical: (' + "%.4f" % cyli[0] + ', ' + "%.4f" % cyli[1] + ', ' + "%.4f" % cyli[2] + ').')
-    print('Spherical:   (' + "%.4f" % sphe[0] + ', ' + "%.4f" % sphe[1] + ', ' + "%.4f" % sphe[2] + ').')
+        print(rectangular_list)
 
-    entry_1.delete(0, END)
-    entry_1.insert(0, rect[0])
-    entry_4.delete(0, END)
-    entry_4.insert(0, rect[1])
-    entry_7.delete(0, END)
-    entry_7.insert(0, rect[2])
+        if self.entry_1.get() != '':
+            rect_list = rectangular_list.split(',')
+            rect = [float(x.strip()) for x in rect_list]
+            cyli = Convert.cart_to_cyl(rect[0], rect[1], rect[2])
+            sphe = Convert.cart_to_sph(rect[0], rect[1], rect[2])
 
-    entry_3.delete(0, END)
-    entry_3.insert(0, sphe[0])
-    entry_6.delete(0, END)
-    entry_6.insert(0, sphe[1])
-    entry_9.delete(0, END)
-    entry_9.insert(0, sphe[2])
+        print('Cartesian:   (' + "%.4f" % rect[0] + ', ' + "%.4f" % rect[1] + ', ' + "%.4f" % rect[2] + ').')
+        print('Cylindrical: (' + "%.4f" % cyli[0] + ', ' + "%.4f" % cyli[1] + ', ' + "%.4f" % cyli[2] + ').')
+        print('Spherical:   (' + "%.4f" % sphe[0] + ', ' + "%.4f" % sphe[1] + ', ' + "%.4f" % sphe[2] + ').')
 
-def GetSpheCoordinates():
+        self.entry_2.delete(0, tk.END)
+        self.entry_2.insert(0, cyli[0])
+        self.entry_5.delete(0, tk.END)
+        self.entry_5.insert(0, cyli[1])
+        self.entry_8.delete(0, tk.END)
+        self.entry_8.insert(0, cyli[2])
 
-    spherical_list = entry_3.get() + "," + entry_6.get() + "," + entry_9.get()
+        self.entry_3.delete(0, tk.END)
+        self.entry_3.insert(0, sphe[0])
+        self.entry_6.delete(0, tk.END)
+        self.entry_6.insert(0, sphe[1])
+        self.entry_9.delete(0, tk.END)
+        self.entry_9.insert(0, sphe[2])
 
-    print(spherical_list)
+    def GetCyliCoordinates(self):
+        cylindrical_list = self.entry_2.get() + "," + self.entry_5.get() + "," + self.entry_8.get()
 
-    if entry_1.get() != '':
-        sphe_list = spherical_list.split(',')
-        sphe = [float(x.strip()) for x in sphe_list]
-        rect = Convert.sph_to_cart(sphe[0], sphe[1], sphe[2])
-        cyli = Convert.sph_to_cyl(sphe[0], sphe[1], sphe[2])
+        print(cylindrical_list)
 
-    print('Cartesian:   (' + "%.4f" % rect[0] + ', ' + "%.4f" % rect[1] + ', ' + "%.4f" % rect[2] + ').')
-    print('Cylindrical: (' + "%.4f" % cyli[0] + ', ' + "%.4f" % cyli[1] + ', ' + "%.4f" % cyli[2] + ').')
-    print('Spherical:   (' + "%.4f" % sphe[0] + ', ' + "%.4f" % sphe[1] + ', ' + "%.4f" % sphe[2] + ').')
+        if self.entry_1.get() != '':
+            cyli_list = cylindrical_list.split(',')
+            cyli = [float(x.strip()) for x in cyli_list]
+            rect = Convert.cyl_to_cart(cyli[0], cyli[1], cyli[2])
+            sphe = Convert.cyl_to_sph(cyli[0], cyli[1], cyli[2])
 
-    entry_1.delete(0, END)
-    entry_1.insert(0, rect[0])
-    entry_4.delete(0, END)
-    entry_4.insert(0, rect[1])
-    entry_7.delete(0, END)
-    entry_7.insert(0, rect[2])
+        print('Cartesian:   (' + "%.4f" % rect[0] + ', ' + "%.4f" % rect[1] + ', ' + "%.4f" % rect[2] + ').')
+        print('Cylindrical: (' + "%.4f" % cyli[0] + ', ' + "%.4f" % cyli[1] + ', ' + "%.4f" % cyli[2] + ').')
+        print('Spherical:   (' + "%.4f" % sphe[0] + ', ' + "%.4f" % sphe[1] + ', ' + "%.4f" % sphe[2] + ').')
 
-    entry_2.delete(0, END)
-    entry_2.insert(0, cyli[0])
-    entry_5.delete(0, END)
-    entry_5.insert(0, cyli[1])
-    entry_8.delete(0, END)
-    entry_8.insert(0, cyli[2])
+        self.entry_1.delete(0, tk.END)
+        self.entry_1.insert(0, rect[0])
+        self.entry_4.delete(0, tk.END)
+        self.entry_4.insert(0, rect[1])
+        self.entry_7.delete(0, tk.END)
+        self.entry_7.insert(0, rect[2])
 
-root = Tk()
+        self.entry_3.delete(0, tk.END)
+        self.entry_3.insert(0, sphe[0])
+        self.entry_6.delete(0, tk.END)
+        self.entry_6.insert(0, sphe[1])
+        self.entry_9.delete(0, tk.END)
+        self.entry_9.insert(0, sphe[2])
 
-label_1 = Label(root, text="Rectangular:")
-label_2 = Label(root, text="Cylindrical:")
-label_3 = Label(root, text="Spherical:")
-entry_1 = Entry(root)
-entry_2 = Entry(root)
-entry_3 = Entry(root)
-entry_4 = Entry(root)
-entry_5 = Entry(root)
-entry_6 = Entry(root)
-entry_7 = Entry(root)
-entry_8 = Entry(root)
-entry_9 = Entry(root)
-entry_main = Entry(root)
+    def GetSpheCoordinates(self):
 
-calculate_rect = Button(root, text="Calculate", command=GetRectCoordinates).grid(row=1, column=4)
-calculate_cyli = Button(root, text="Calculate", command=GetCyliCoordinates).grid(row=2, column=4)
-calculate_sphe = Button(root, text="Calculate", command=GetSpheCoordinates).grid(row=3, column=4)
+        spherical_list = self.entry_3.get() + "," + self.entry_6.get() + "," + self.entry_9.get()
 
-label_1.grid(row=1)
-label_2.grid(row=2)
-label_3.grid(row=3)
-entry_main.grid(row=0, column=1)
-entry_1.grid(row=1, column=1)
-entry_4.grid(row=1, column=2)
-entry_7.grid(row=1, column=3)
-entry_2.grid(row=2, column=1)
-entry_5.grid(row=2, column=2)
-entry_8.grid(row=2, column=3)
-entry_3.grid(row=3, column=1)
-entry_6.grid(row=3, column=2)
-entry_9.grid(row=3, column=3)
+        print(spherical_list)
 
-new_order = (entry_1, entry_4, entry_7, entry_2, entry_5, entry_8, entry_3, entry_6, entry_9)
-for widget in new_order:
-    widget.lift()
+        if self.entry_1.get() != '':
+            sphe_list = spherical_list.split(',')
+            sphe = [float(x.strip()) for x in sphe_list]
+            rect = Convert.sph_to_cart(sphe[0], sphe[1], sphe[2])
+            cyli = Convert.sph_to_cyl(sphe[0], sphe[1], sphe[2])
+
+        print('Cartesian:   (' + "%.4f" % rect[0] + ', ' + "%.4f" % rect[1] + ', ' + "%.4f" % rect[2] + ').')
+        print('Cylindrical: (' + "%.4f" % cyli[0] + ', ' + "%.4f" % cyli[1] + ', ' + "%.4f" % cyli[2] + ').')
+        print('Spherical:   (' + "%.4f" % sphe[0] + ', ' + "%.4f" % sphe[1] + ', ' + "%.4f" % sphe[2] + ').')
+
+        self.entry_1.delete(0, tk.END)
+        self.entry_1.insert(0, rect[0])
+        self.entry_4.delete(0, tk.END)
+        self.entry_4.insert(0, rect[1])
+        self.entry_7.delete(0, tk.END)
+        self.entry_7.insert(0, rect[2])
+
+        self.entry_2.delete(0, tk.END)
+        self.entry_2.insert(0, cyli[0])
+        self.entry_5.delete(0, tk.END)
+        self.entry_5.insert(0, cyli[1])
+        self.entry_8.delete(0, tk.END)
+        self.entry_8.insert(0, cyli[2])
+
+
+root = CoordConvertWindow(None)
 
 root.mainloop()
